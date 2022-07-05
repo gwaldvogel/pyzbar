@@ -193,7 +193,7 @@ def _pixel_data(image):
     return pixels, width, height
 
 
-def decode(image, symbols=None):
+def decode(image, symbols=None, binary=False):
     """Decodes datamatrix barcodes in `image`.
 
     Args:
@@ -223,6 +223,8 @@ def decode(image, symbols=None):
                 zbar_image_scanner_set_config(
                     scanner, symbol, ZBarConfig.CFG_ENABLE, 1
                 )
+        if binary:
+            zbar_image_scanner_set_config(scanner, 0, ZBarConfig.CFG_NUM, 1)
         with _image() as img:
             zbar_image_set_format(img, _FOURCC['L800'])
             zbar_image_set_size(img, width, height)
